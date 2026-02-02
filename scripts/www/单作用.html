@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>无锡市科振自控阀门-单作用执行器选型助手</title>
+    <style>
+        * {margin:0;padding:0;box-sizing:border-box;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;}
+        body {padding:16px;background:linear-gradient(135deg,#f7f9fc,#f0f4f8);min-height:100vh;overflow-x:hidden;}
+        .header {text-align:center;margin-bottom:20px;padding:12px 0;}
+        .company-name {font-size:22px;font-weight:700;margin-bottom:8px;letter-spacing:0.3px;background:linear-gradient(90deg,#1e40af,#3b82f6);-webkit-background-clip:text;background-clip:text;color:transparent;line-height:1.2;}
+        .tool-title {font-size:18px;font-weight:600;color:#334155;letter-spacing:0.2px;padding-bottom:6px;position:relative;}
+        .tool-title::after {content:"";position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:80px;height:2px;background:linear-gradient(90deg,#3b82f6,#1e40af);border-radius:2px;}
+        .container {max-width:1100px;margin:0 auto;background:#fff;border-radius:20px;padding:20px 16px;box-shadow:0 8px 25px rgba(0,0,0,0.05);position:relative;overflow:hidden;}
+        .container::before {content:"";position:absolute;top:0;left:0;width:100%;height:3px;background:linear-gradient(90deg,#1e40af,#3b82f6);}
+        .form-group,.form-group-row {display:flex;align-items:center;gap:10px;margin-bottom:16px;width:100%;}
+        .form-group label,.form-group-row label {font-size:14px;color:#475569;font-weight:500;min-width:110px;flex-shrink:0;}
+        .form-control {flex:1;min-width:0;padding:12px 15px;border:1px solid #e2e8f0;border-radius:10px;font-size:15px;color:#1e293b;outline:none;background:#f8fafc;transition:all 0.2s ease;-webkit-appearance:none;appearance:none;}
+        .form-control:focus {border-color:#3b82f6;background:#fff;box-shadow:0 0 0 3px rgba(59,130,246,0.1);}
+        .form-group-row .input-wrap {flex:1;display:flex;gap:10px;align-items:center;}
+        .btn-search {padding:12px 20px;background:linear-gradient(90deg,#1e40af,#3b82f6);color:#fff;border:none;border-radius:10px;font-size:15px;font-weight:500;cursor:pointer;transition:all 0.3s ease;white-space:nowrap;}
+        .btn-search:hover {background:linear-gradient(90deg,#3b82f6,#60a5fa);transform:translateY(-1px);box-shadow:0 4px 12px rgba(59,130,246,0.2);}
+        .btn-search:active {background:linear-gradient(90deg,#1e3a8a,#1e40af);transform:translateY(0);box-shadow:0 2px 8px rgba(59,130,246,0.2);}
+        .result-panel {background:#f0f7ff;border-radius:12px;padding:18px;margin-bottom:20px;border:1px solid #dbeafe;box-shadow:0 4px 12px rgba(59,130,246,0.05);display:none;}
+        .recommended-model {font-size:18px;color:#3b82f6;font-weight:600;text-align:center;margin-bottom:12px;letter-spacing:-0.1px;}
+        .result-details {font-size:13px;color:#475569;line-height:1.6;text-align:center;display:flex;flex-wrap:wrap;justify-content:center;gap:10px;}
+        .detail-item {display:flex;align-items:center;gap:4px;}
+        .highlight {color:#3b82f6;font-weight:600;}
+        .table-container {overflow-x:auto;border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,0.04);margin-bottom:20px;-webkit-overflow-scrolling:touch;width:100%;}
+        /* 核心：固定布局，列宽不随数据变 */
+        table {
+            width:100%;
+            border-collapse:collapse;
+            background:#fff;
+            border-radius:12px;
+            overflow:hidden;
+            min-width:800px;
+            table-layout:fixed;
+        }
+        th {
+            padding:8px 4px;
+            text-align:center;
+            border-bottom:1px solid #e2e8f0;
+            border-right:1px solid #e2e8f0;
+            background:#f8fafc;
+            color:#475569;
+            font-weight:500;
+            font-size:11px;
+            position:sticky;
+            top:0;
+            white-space:nowrap;
+            z-index:1;
+            box-sizing:border-box;
+        }
+        .th-merge {font-weight:600;color:#1e40af;border-right:none;}
+        td {
+            padding:10px 4px;
+            text-align:center;
+            border-bottom:1px solid #f1f5f9;
+            border-right:1px solid #f1f5f9;
+            font-size:12px;
+            color:#1e293b;
+            white-space:nowrap;
+            box-sizing:border-box;
+        }
+        tr:hover {background:#f9fafb;}
+        .fixed-col {
+            position:sticky;
+            left:0;
+            background:#f9fafb;
+            font-weight:500;
+            border-right:1px solid #e2e8f0;
+            z-index:2;
+            width:70px;
+            min-width:70px;
+        }
+        .fixed-col-spring {
+            position:sticky;
+            left:70px;
+            background:#f9fafb;
+            font-weight:500;
+            border-right:1px solid #e2e8f0;
+            z-index:2;
+            width:50px;
+            min-width:50px;
+        }
+        /* 弹簧扭矩列双锁宽，0°必显全 */
+        .spring-torque-col {
+            width:50px !important;
+            min-width:50px !important;
+            padding:8px 3px !important;
+            white-space:nowrap !important;
+            box-sizing:border-box !important;
+        }
+        .active-col {background:#f0f7ff;color:#3b82f6;z-index:2;}
+        .active-th {background:#e0ebff;color:#1e40af;z-index:3;}
+        /* 统一双作用风格：圆角橙色底色闪烁，不改变字体颜色 */
+        @keyframes blink {
+            0% { background-color: #ffffff; border-radius: 8px; }
+            50% { background-color: #ff9900; border-radius: 8px; }
+            100% { background-color: #ffffff; border-radius: 8px; }
+        }
+        .blink-cell {
+            animation: blink 1.2s infinite;
+            border-radius: 8px;
+            overflow: hidden;
+            font-weight: 700;
+            color: #1e293b; /* 固定字体颜色，不随闪烁变化 */
+        }
+        .footer-note {margin-top:16px;text-align:center;font-size:12px;color:#94a3b8;line-height:1.5;padding-bottom:8px;}
+        select.form-control {background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23475569' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 15px center;padding-right:38px;}
+        @media (max-width:768px) {
+            .form-group,.form-group-row {flex-direction:column;align-items:flex-start;gap:6px;margin-bottom:18px;}
+            .form-group label,.form-group-row label {min-width:auto;width:100%;font-size:13px;margin-bottom:2px;}
+            .form-control {width:100%;padding:13px 15px;font-size:14px;}
+            .form-group-row .input-wrap {width:100%;flex-direction:column;gap:8px;}
+            .btn-search {width:100%;padding:13px;}
+            .result-panel {padding:16px 12px;}
+            .recommended-model {font-size:17px;}
+            .result-details {gap:8px;font-size:12px;}
+            th {padding:7px 3px;font-size:10px;}
+            td {padding:8px 3px;font-size:11px;}
+            .fixed-col {width:60px;min-width:60px;font-size:11px;}
+            .fixed-col-spring {left:60px;width:45px;min-width:45px;font-size:11px;}
+            .spring-torque-col {width:45px !important;min-width:45px !important;padding:6px 2px !important;font-size:10px !important;}
+            .blink-cell {animation:blink 1.2s infinite; background:#ffedd5;}
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="company-name">无锡市科振自控阀门有限公司</div>
+        <div class="tool-title">单作用执行器选型助手</div>
+    </div>
+    <div class="container">
+        <div class="form-group">
+            <label for="valveTorque">阀门扭矩 (Nm)：</label>
+            <input type="number" id="valveTorque" class="form-control" min="0.1" step="0.01" placeholder="输入实际扭矩" required>
+        </div>
+        <div class="form-group">
+            <label for="safetyFactor">安全系数：</label>
+            <select id="safetyFactor" class="form-control" required>
+                <option value="1">含系数（直接匹配）</option>
+                <option value="1.2">×1.2</option><option value="1.3">×1.3</option><option value="1.4">×1.4</option>
+                <option value="1.5">×1.5</option><option value="1.6">×1.6</option><option value="1.7">×1.7</option>
+                <option value="1.8">×1.8</option><option value="1.9">×1.9</option><option value="2.0">×2.0</option>
+            </select>
+        </div>
+        <div class="form-group-row">
+            <label for="airPressure">气源压力 (bar)：</label>
+            <div class="input-wrap">
+                <select id="airPressure" class="form-control" required>
+                    <option value="3.0">3.0</option><option value="3.5">3.5</option>
+                    <option value="4.0">4.0</option><option value="4.5">4.5</option>
+                    <option value="5.0">5.0</option><option value="5.5">5.5</option>
+                    <option value="6.0">6.0</option><option value="6.5">6.5</option>
+                    <option value="7.0">7.0</option><option value="7.5">7.5</option>
+                    <option value="8.0">8.0</option>
+                </select>
+                <button class="btn-search" onclick="calculateAndSelect()">开始选型</button>
+            </div>
+        </div>
+        <div class="result-panel" id="resultPanel">
+            <div class="recommended-model">推荐型号：<span id="bestModel">--</span></div>
+            <div class="result-details">
+                <div class="detail-item">阀门扭矩：<span class="highlight" id="valveTorqueDisplay">--</span></div>
+                <div class="detail-item">安全系数：<span class="highlight" id="safetyFactorDisplay">--</span></div>
+                <div class="detail-item">所需扭矩：<span class="highlight" id="requiredTorqueDisplay">--</span></div>
+                <div class="detail-item">气源压力：<span class="highlight" id="airPressureDisplay">--</span></div>
+                <div class="detail-item">弹簧根数：<span class="highlight" id="springForceDisplay">--</span></div>
+                <div class="detail-item">弹簧0°/90°：<span class="highlight" id="spring0Display">--</span>/<span class="highlight" id="spring90Display">--</span></div>
+                <div class="detail-item">气缸0°/90°：<span class="highlight" id="cylinder0Display">--</span>/<span class="highlight" id="cylinder90Display">--</span></div>
+            </div>
+        </div>
+        <div class="table-container">
+            <table id="torqueTable">
+                <thead>
+                    <tr>
+                        <<th class="fixed-col">主型号</</th>
+                        <<th class="fixed-col-spring">弹簧</</th>
+                        <<th colspan="2" class="th-merge">弹簧扭矩</</th>
+                        <<th colspan="2">3.0bar</</th><<th colspan="2">3.5bar</</th><<th colspan="2">4.0bar</</th><<th colspan="2">4.5bar</</th>
+                        <<th colspan="2">5.0bar</</th><<th colspan="2">5.5bar</</th><<th colspan="2">6.0bar</</th><<th colspan="2">6.5bar</</th>
+                        <<th colspan="2">7.0bar</</th><<th colspan="2">7.5bar</</th><<th colspan="2">8.0bar</</th>
+                    </tr>
+                    <tr>
+                        <<th class="fixed-col">型号</</th>
+                        <<th class="fixed-col-spring">根数</</th>
+                        <<th class="spring-torque-col">0°</</th>
+                        <<th class="spring-torque-col">90°</</th>
+                        <<th>0°</</th><<th>90°</</th><<th>0°</</th><<th>90°</</th><<th>0°</</th><<th>90°</</th><<th>0°</</th><<th>90°</</th>
+                        <<th>0°</</th><<th>90°</</th><<th>0°</</th><<th>90°</</th><<th>0°</</th><<th>90°</</th><<th>0°</</th><<th>90°</</th>
+                        <<th>0°</</th><<th>90°</</th><<th>0°</</th><<th>90°</</th><<th>0°</</th><<th>90°</</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody"></tbody>
+            </table>
+        </div>
+        <div class="footer-note">
+            选型规则：按【型号从小到大优先】，四个扭矩数据（弹簧0°/90°+气缸0°/90°）同时≥所需扭矩即匹配｜推荐型号自动置顶｜橙色圆角闪烁=核心数据，手机端一目了然
+        </div>
+    </div>
+    <script>
+        // 数据：仅保留KZ-45型号作为示例，其余型号按注释模板添加
+        const torqueData = [
+                       // KZ-45（2-4根）
+            {baseModel:"KZ-45", springForce:2, springTorque:[4.6,7.4], cylinderTorque:[[4.2,1.3],[null,null],[7.2,4.3],[null,null],[10.2,7.3],[null,null],[null,null],[null,null],[null,null],[null,null],[null,null]]},
+            {baseModel:"KZ-45", springForce:3, springTorque:[5.8,9.2], cylinderTorque:[[null,null],[null,null],[6.0,2.4],[null,null],[9.0,5.4],[null,null],[12.0,8.4],[null,null],[15.0,11.4],[null,null],[null,null]]},
+            {baseModel:"KZ-45", springForce:4, springTorque:[7.0,11.1], cylinderTorque:[[null,null],[null,null],[null,null],[null,null],[7.8,3.5],[null,null],[10.8,6.8],[null,null],[13.8,9.5],[null,null],[null,null]]},
+            // KZ-52（5-12根）
+            {baseModel:"KZ-52", springForce:5, springTorque:[4.0,6.2], cylinderTorque:[[8.1,5.8],[10.1,7.8],[12.1,9.8],[14.1,11.8],[16.1,13.8],[18.1,15.8],[20.1,17.8],[22.1,19.8],[24.1,21.8],[26.1,23.8],[28.1,25.8]]},
+            {baseModel:"KZ-52", springForce:6, springTorque:[4.7,7.4], cylinderTorque:[[7.3,4.6],[9.3,6.6],[11.3,8.6],[13.3,10.6],[15.3,12.6],[17.3,14.6],[19.3,16.6],[21.3,18.6],[23.3,20.6],[25.3,22.6],[27.3,24.6]]},
+            {baseModel:"KZ-52", springForce:7, springTorque:[5.5,8.7], cylinderTorque:[[6.5,3.3],[8.5,5.3],[10.5,7.3],[12.5,9.3],[14.5,11.3],[16.5,13.3],[18.5,15.3],[20.5,17.3],[22.5,19.3],[24.5,21.3],[26.5,23.3]]},
+            {baseModel:"KZ-52", springForce:8, springTorque:[6.3,9.9], cylinderTorque:[[5.7,2.1],[7.7,4.1],[9.7,6.1],[11.7,8.1],[13.7,10.1],[15.7,12.1],[17.7,14.1],[19.7,16.1],[21.7,18.1],[23.7,20.1],[25.7,22.1]]},
+            {baseModel:"KZ-52", springForce:9, springTorque:[7.1,11.2], cylinderTorque:[[4.9,0.8],[6.9,2.8],[8.9,4.8],[10.9,6.8],[12.9,8.8],[14.9,10.8],[16.9,12.8],[18.9,14.8],[20.9,16.8],[22.9,18.8],[24.9,20.8]]},
+            {baseModel:"KZ-52", springForce:10, springTorque:[7.9,12.4], cylinderTorque:[[null,null],[6.1,1.6],[8.1,3.6],[10.1,5.6],[12.1,7.6],[14.1,9.6],[16.1,11.6],[18.1,13.6],[20.1,15.6],[22.1,17.6],[24.1,19.6]]},
+            {baseModel:"KZ-52", springForce:11, springTorque:[8.7,13.6], cylinderTorque:[[null,null],[null,null],[7.3,2.4],[9.3,4.4],[11.3,6.4],[13.3,8.4],[15.3,10.4],[17.3,12.4],[19.3,14.4],[21.3,16.4],[23.3,18.4]]},
+            {baseModel:"KZ-52", springForce:12, springTorque:[9.5,14.9], cylinderTorque:[[null,null],[null,null],[6.5,1.1],[8.5,3.1],[10.5,5.1],[12.5,7.1],[14.5,9.1],[16.5,11.1],[18.5,13.1],[20.5,15.1],[22.5,17.1]]},
+            // KZ-63（5-12根）
+            {baseModel:"KZ-63", springForce:5, springTorque:[6.8,10.4], cylinderTorque:[[14.9,11.3],[18.4,14.8],[22.1,18.5],[25.6,22.0],[29.3,25.7],[32.8,29.2],[36.6,33.0],[40.0,36.4],[43.8,40.2],[47.2,43.6],[51.0,47.4]]},
+            {baseModel:"KZ-63", springForce:6, springTorque:[8.2,12.5], cylinderTorque:[[13.5,9.2],[17.0,12.7],[20.7,16.4],[24.2,19.9],[27.9,23.6],[31.4,27.1],[35.2,30.9],[38.6,34.3],[42.4,38.1],[45.8,41.5],[49.6,45.3]]},
+            {baseModel:"KZ-63", springForce:7, springTorque:[9.6,14.6], cylinderTorque:[[12.1,7.1],[15.6,10.6],[19.3,14.3],[22.8,17.8],[26.5,21.5],[30.0,25.0],[33.8,28.8],[37.2,32.2],[41.0,36.0],[44.4,39.4],[48.2,43.2]]},
+            {baseModel:"KZ-63", springForce:8, springTorque:[10.9,16.7], cylinderTorque:[[10.8,5.0],[14.3,8.5],[18.0,12.2],[21.5,15.7],[25.2,19.4],[28.7,22.9],[32.5,26.7],[35.9,30.1],[39.7,33.9],[43.1,37.3],[46.9,41.1]]},
+            {baseModel:"KZ-63", springForce:9, springTorque:[12.3,18.9], cylinderTorque:[[9.4,2.8],[12.9,6.3],[16.6,10.0],[20.1,13.5],[23.8,17.2],[27.3,20.7],[31.1,24.5],[34.5,27.9],[38.3,31.7],[41.7,35.1],[45.5,38.9]]},
+            {baseModel:"KZ-63", springForce:10, springTorque:[13.7,20.9], cylinderTorque:[[8.0,0.8],[11.5,4.3],[15.2,8.0],[18.7,11.5],[22.4,15.2],[25.9,18.7],[29.7,22.5],[33.1,25.9],[36.9,29.7],[40.3,33.1],[44.1,36.9]]},
+            {baseModel:"KZ-63", springForce:11, springTorque:[15.0,22.9], cylinderTorque:[[null,null],[10.2,2.3],[13.9,6.0],[17.4,9.5],[21.1,13.2],[24.6,16.7],[28.4,20.5],[31.8,23.9],[35.6,27.7],[39.0,31.1],[42.8,34.9]]},
+            {baseModel:"KZ-63", springForce:12, springTorque:[16.4,25.0], cylinderTorque:[[null,null],[8.8,0.2],[12.5,3.9],[16.0,7.4],[19.7,11.1],[23.2,14.6],[27.0,18.4],[30.4,21.8],[34.2,25.6],[37.6,29.0],[41.4,32.8]]},
+            // KZ-75（5-12根）
+            {baseModel:"KZ-75", springForce:5, springTorque:[10.0,15.0], cylinderTorque:[[20.0,15.0],[25.0,20.0],[30.0,25.0],[35.0,30.0],[40.0,35.0],[45.0,40.0],[50.0,45.0],[55.0,50.0],[60.0,55.0],[65.0,60.0],[70.0,65.0]]},
+            {baseModel:"KZ-75", springForce:6, springTorque:[12.0,18.0], cylinderTorque:[[18.0,12.0],[23.0,17.0],[28.0,22.0],[33.0,27.0],[38.0,32.0],[43.0,37.0],[48.0,42.0],[53.0,47.0],[58.0,52.0],[63.0,57.0],[68.0,62.0]]},
+            {baseModel:"KZ-75", springForce:7, springTorque:[14.0,21.0], cylinderTorque:[[16.0,9.0],[21.0,14.0],[26.0,19.0],[31.0,24.0],[36.0,29.0],[41.0,34.0],[46.0,39.0],[51.0,44.0],[56.0,49.0],[61.0,54.0],[66.0,59.0]]},
+            {baseModel:"KZ-75", springForce:8, springTorque:[16.0,24.0], cylinderTorque:[[14.0,6.0],[19.0,11.0],[24.0,16.0],[29.0,21.0],[34.0,26.0],[39.0,31.0],[44.0,36.0],[49.0,41.0],[54.0,46.0],[59.0,51.0],[64.0,56.0]]},
+            {baseModel:"KZ-75", springForce:9, springTorque:[18.0,27.0], cylinderTorque:[[12.0,3.0],[17.0,8.0],[22.0,13.0],[27.0,18.0],[32.0,23.0],[37.0,28.0],[42.0,33.0],[47.0,38.0],[52.0,43.0],[57.0,48.0],[62.0,53.0]]},
+            {baseModel:"KZ-75", springForce:10, springTorque:[20.0,30.0], cylinderTorque:[[10.0,0.0],[15.0,5.0],[20.0,10.0],[25.0,15.0],[30.0,20.0],[35.0,25.0],[40.0,30.0],[45.0,35.0],[50.0,40.0],[55.0,45.0],[60.0,50.0]]},
+            {baseModel:"KZ-75", springForce:11, springTorque:[22.0,33.0], cylinderTorque:[[null,null],[13.0,2.0],[18.0,7.0],[23.0,12.0],[28.0,17.0],[33.0,22.0],[38.0,27.0],[43.0,32.0],[48.0,37.0],[53.0,42.0],[58.0,47.0]]},
+            {baseModel:"KZ-75", springForce:12, springTorque:[24.0,36.0], cylinderTorque:[[null,null],[null,null],[16.0,4.0],[21.0,9.0],[26.0,14.0],[31.0,19.0],[36.0,24.0],[41.0,29.0],[46.0,34.0],[51.0,39.0],[56.0,44.0]]},
+            // KZ-83（5-12根）
+            {baseModel:"KZ-83", springForce:5, springTorque:[15.5,23.0], cylinderTorque:[[30.5,23.0],[39.1,31.6],[46.5,39.0],[54.7,47.2],[62.5,55.0],[70.3,62.8],[77.5,70.0],[85.9,78.4],[92.5,85.0],[101.5,94.0],[109.3,101.8]]},
+            {baseModel:"KZ-83", springForce:6, springTorque:[18.6,27.6], cylinderTorque:[[27.4,18.4],[36.0,27.0],[43.4,34.4],[51.6,42.6],[59.4,50.4],[67.2,58.2],[74.4,65.4],[82.8,73.8],[89.4,80.4],[98.4,89.4],[106.2,97.2]]},
+            {baseModel:"KZ-83", springForce:7, springTorque:[21.7,32.2], cylinderTorque:[[24.3,13.8],[32.9,22.4],[40.3,29.8],[48.5,38.0],[56.3,45.8],[64.1,53.6],[71.3,60.8],[79.7,69.2],[86.3,75.8],[95.3,84.8],[103.1,92.6]]},
+            {baseModel:"KZ-83", springForce:8, springTorque:[24.8,36.8], cylinderTorque:[[21.2,9.2],[29.8,17.8],[37.2,25.2],[45.4,33.4],[53.2,41.2],[61.0,49.0],[68.2,56.2],[76.6,64.6],[83.2,71.2],[92.2,80.2],[100.0,88.0]]},
+            {baseModel:"KZ-83", springForce:9, springTorque:[27.9,41.4], cylinderTorque:[[18.1,4.6],[26.7,13.2],[34.1,20.6],[42.3,28.8],[50.1,36.6],[57.9,44.4],[65.1,51.6],[73.5,60.0],[80.1,66.6],[89.1,75.6],[96.9,83.4]]},
+            {baseModel:"KZ-83", springForce:10, springTorque:[31.0,46.0], cylinderTorque:[[15.0,0.0],[23.6,8.6],[31.0,16.0],[39.2,24.2],[47.0,32.0],[54.8,39.8],[62.0,47.0],[70.4,55.4],[77.0,62.0],[86.0,71.0],[93.8,78.8]]},
+            {baseModel:"KZ-83", springForce:11, springTorque:[34.1,50.6], cylinderTorque:[[null,null],[20.5,4.0],[27.9,11.4],[36.1,19.6],[43.9,27.4],[51.7,35.2],[58.9,42.4],[67.3,50.8],[73.9,57.4],[82.9,66.4],[90.7,74.2]]},
+            {baseModel:"KZ-83", springForce:12, springTorque:[37.2,55.2], cylinderTorque:[[null,null],[null,null],[24.8,6.8],[33.0,15.0],[40.8,22.8],[48.6,30.6],[55.8,37.8],[64.2,46.2],[70.8,52.8],[79.8,61.8],[87.6,69.6]]},
+            // KZ-92（5-12根）
+            {baseModel:"KZ-92", springForce:5, springTorque:[23.0,33.0], cylinderTorque:[[44.6,34.7],[55.8,45.9],[67.1,57.2],[78.3,68.4],[89.6,79.7],[100.9,91.0],[112.2,102.3],[123.4,113.5],[134.7,124.8],[145.9,136.0],[157.0,147.1]]},
+            {baseModel:"KZ-92", springForce:6, springTorque:[27.6,39.5], cylinderTorque:[[40.0,28.1],[51.2,39.3],[62.5,50.6],[73.7,61.8],[85.0,73.1],[96.3,84.4],[107.6,95.7],[118.8,106.9],[130.1,118.2],[141.3,129.4],[152.4,140.5]]},
+            {baseModel:"KZ-92", springForce:7, springTorque:[32.2,46.1], cylinderTorque:[[35.4,21.5],[46.6,32.7],[57.9,44.0],[69.1,55.2],[80.4,66.5],[91.7,77.8],[103.0,89.1],[114.2,100.3],[125.5,111.6],[136.7,122.8],[147.8,133.9]]},
+            {baseModel:"KZ-92", springForce:8, springTorque:[36.8,52.7], cylinderTorque:[[30.8,14.9],[42.0,26.1],[53.3,37.4],[64.5,48.6],[75.8,59.9],[87.1,71.2],[98.4,82.5],[109.6,93.7],[120.9,105.0],[132.1,116.2],[143.2,127.3]]},
+            {baseModel:"KZ-92", springForce:9, springTorque:[41.4,59.3], cylinderTorque:[[26.2,8.3],[37.4,19.5],[48.7,30.8],[59.9,42.0],[71.2,53.3],[82.5,64.6],[93.8,75.9],[105.0,87.1],[116.3,98.4],[127.5,109.6],[138.6,120.7]]},
+            {baseModel:"KZ-92", springForce:10, springTorque:[46.0,65.9], cylinderTorque:[[21.6,1.7],[32.8,12.9],[44.1,24.2],[55.3,35.4],[66.6,46.7],[77.9,58.0],[89.2,69.3],[100.4,80.5],[111.7,91.8],[122.9,103.0],[134.0,114.1]]},
+            {baseModel:"KZ-92", springForce:11, springTorque:[50.6,72.5], cylinderTorque:[[null,null],[28.2,6.3],[39.5,17.6],[50.7,28.8],[62.0,40.1],[73.3,51.4],[84.6,62.7],[95.8,73.9],[107.1,85.2],[118.3,96.4],[129.4,107.5]]},
+            {baseModel:"KZ-92", springForce:12, springTorque:[55.2,79.1], cylinderTorque:[[null,null],[null,null],[34.9,11.0],[46.1,22.2],[57.4,33.5],[68.7,44.8],[80.0,56.1],[91.2,67.3],[102.5,78.6],[113.7,89.8],[124.8,100.9]]},
+            // KZ-105（5-12根）
+            {baseModel:"KZ-105", springForce:5, springTorque:[31.8,49.3], cylinderTorque:[[66.0,48.4],[82.3,64.7],[98.6,81.0],[114.9,97.3],[131.2,113.6],[147.5,129.9],[163.8,146.2],[180.0,162.4],[196.3,178.7],[212.6,195.0],[228.3,210.7]]},
+            {baseModel:"KZ-105", springForce:6, springTorque:[38.1,59.2], cylinderTorque:[[59.6,38.5],[75.9,54.8],[92.2,71.1],[108.5,87.4],[124.8,103.7],[141.1,120.0],[157.4,136.3],[173.6,152.5],[189.9,168.8],[206.2,185.1],[221.9,200.8]]},
+            {baseModel:"KZ-105", springForce:7, springTorque:[44.5,69.0], cylinderTorque:[[53.3,28.7],[69.6,45.0],[85.9,61.3],[102.2,77.6],[118.5,93.9],[134.8,110.2],[151.1,126.5],[167.3,142.7],[183.6,159.0],[199.9,175.3],[215.6,191.0]]},
+            {baseModel:"KZ-105", springForce:8, springTorque:[50.8,78.9], cylinderTorque:[[46.9,18.8],[63.2,35.1],[79.5,51.4],[95.8,67.7],[112.1,84.0],[128.4,100.3],[144.7,116.6],[160.9,132.8],[177.2,149.1],[193.5,165.4],[209.2,181.1]]},
+            {baseModel:"KZ-105", springForce:9, springTorque:[57.2,88.7], cylinderTorque:[[40.6,9.0],[56.9,25.3],[73.2,41.6],[89.5,57.9],[105.8,74.2],[122.1,90.5],[138.4,106.8],[154.6,123.0],[170.9,139.3],[187.2,155.6],[202.9,171.3]]},
+            {baseModel:"KZ-105", springForce:10, springTorque:[63.5,98.6], cylinderTorque:[[null,null],[50.5,15.4],[66.8,31.7],[83.1,48.0],[99.4,64.3],[115.7,80.6],[132.0,96.9],[148.2,113.1],[164.5,129.4],[180.8,145.7],[196.5,161.4]]},
+            {baseModel:"KZ-105", springForce:11, springTorque:[69.9,108.5], cylinderTorque:[[null,null],[44.2,5.5],[60.5,21.8],[76.8,38.1],[93.1,54.4],[109.4,70.7],[125.7,87.0],[141.9,103.2],[158.2,119.5],[174.5,135.8],[190.2,151.5]]},
+            {baseModel:"KZ-105", springForce:12, springTorque:[76.2,118.3], cylinderTorque:[[null,null],[null,null],[54.1,12.0],[70.4,28.3],[86.7,44.6],[103.0,60.9],[119.3,77.2],[135.5,93.4],[151.8,109.7],[168.1,126.0],[183.8,141.7]]},
+            // KZ-125（5-12根）
+            {baseModel:"KZ-125", springForce:5, springTorque:[50.0,78.0], cylinderTorque:[[100.0,72.0],[125.6,97.6],[150.0,122.0],[175.7,147.7],[200.8,172.8],[225.9,197.9],[251.0,223.0],[276.0,248.0],[301.0,273.0],[326.2,298.2],[351.0,323.0]]},
+            {baseModel:"KZ-125", springForce:6, springTorque:[60.0,93.6], cylinderTorque:[[90.0,56.4],[115.6,82.0],[140.0,106.4],[165.7,132.1],[190.8,157.2],[215.9,182.3],[241.0,207.4],[266.0,232.4],[291.0,257.4],[316.2,282.6],[341.0,307.4]]},
+            {baseModel:"KZ-125", springForce:7, springTorque:[70.0,109.2], cylinderTorque:[[80.0,40.8],[105.6,66.4],[130.0,90.8],[155.7,116.5],[180.8,141.6],[205.9,166.7],[231.0,191.8],[256.0,216.8],[281.0,241.8],[306.2,267.0],[331.0,291.8]]},
+            {baseModel:"KZ-125", springForce:8, springTorque:[80.0,124.8], cylinderTorque:[[70.0,25.2],[95.6,50.8],[120.0,75.2],[145.7,100.9],[170.8,126.0],[195.9,151.1],[221.0,176.2],[246.0,201.2],[271.0,226.2],[296.2,251.4],[321.0,276.2]]},
+            {baseModel:"KZ-125", springForce:9, springTorque:[90.0,140.4], cylinderTorque:[[60.0,9.6],[85.6,35.2],[110.0,59.6],[135.7,85.3],[160.8,110.4],[185.9,135.5],[211.0,160.6],[236.0,185.6],[261.0,210.6],[286.2,235.8],[311.0,260.6]]},
+            {baseModel:"KZ-125", springForce:10, springTorque:[100.0,156.0], cylinderTorque:[[null,null],[75.6,19.6],[100.0,44.0],[125.7,69.7],[150.8,94.8],[175.9,119.9],[201.0,145.0],[226.0,170.0],[251.0,195.0],[276.2,220.2],[301.0,245.0]]},
+            {baseModel:"KZ-125", springForce:11, springTorque:[110.0,171.6], cylinderTorque:[[null,null],[65.6,4.0],[90.0,28.4],[115.7,54.1],[140.8,79.2],[165.9,104.3],[191.0,129.4],[216.0,154.4],[241.0,179.4],[266.2,204.6],[291.0,229.4]]},
+            {baseModel:"KZ-125", springForce:12, springTorque:[120.0,187.2], cylinderTorque:[[null,null],[null,null],[80.0,12.8],[105.7,38.5],[130.8,63.6],[155.9,88.7],[181.0,113.8],[206.0,138.8],[231.0,163.8],[256.2,189.0],[281.0,213.8]]},
+            // KZ-140（5-12根）
+            {baseModel:"KZ-140", springForce:5, springTorque:[86,129], cylinderTorque:[[174,131],[218,175],[261,218],[304,261],[348,305],[391,348],[435,392],[477,434],[522,479],[564,521],[609,566]]},
+            {baseModel:"KZ-140", springForce:6, springTorque:[103,155], cylinderTorque:[[157,105],[201,149],[244,192],[287,235],[331,279],[374,322],[418,366],[460,408],[505,453],[547,495],[592,540]]},
+            {baseModel:"KZ-140", springForce:7, springTorque:[120,181], cylinderTorque:[[140,79],[184,123],[227,166],[270,209],[314,253],[357,296],[383,315],[425,357],[470,402],[512,444],[557,489]]},
+            {baseModel:"KZ-140", springForce:8, springTorque:[138,206], cylinderTorque:[[122,54],[166,98],[209,141],[252,184],[296,228],[339,271],[383,315],[425,357],[470,402],[512,444],[557,489]]},
+            {baseModel:"KZ-140", springForce:9, springTorque:[155,232], cylinderTorque:[[105,28],[149,72],[192,115],[235,158],[279,202],[322,245],[366,289],[408,331],[453,376],[495,418],[540,463]]},
+            {baseModel:"KZ-140", springForce:10, springTorque:[172,258], cylinderTorque:[[88,2],[132,46],[175,89],[218,132],[262,176],[305,219],[349,263],[391,305],[436,350],[478,392],[523,437]]},
+            {baseModel:"KZ-140", springForce:11, springTorque:[189,284], cylinderTorque:[[null,null],[115,20],[158,63],[201,106],[245,150],[288,193],[332,237],[374,279],[419,324],[461,366],[506,411]]},
+            {baseModel:"KZ-140", springForce:12, springTorque:[206,310], cylinderTorque:[[null,null],[null,null],[141,37],[184,80],[228,124],[271,167],[315,211],[357,253],[402,298],[444,340],[489,385]]},
+            // KZ-160（5-12根）
+            {baseModel:"KZ-160", springForce:5, springTorque:[140,193], cylinderTorque:[[258,205],[324,271],[390,337],[456,403],[523,470],[589,536],[655,602],[721,668],[787,734],[854,801],[920,867]]},
+            {baseModel:"KZ-160", springForce:6, springTorque:[167,231], cylinderTorque:[[230,166],[296,232],[362,298],[428,364],[495,431],[561,497],[627,563],[693,629],[759,695],[826,762],[892,828]]},
+            {baseModel:"KZ-160", springForce:7, springTorque:[195,270], cylinderTorque:[[202,128],[268,194],[334,260],[400,326],[467,393],[533,459],[599,525],[665,591],[731,657],[798,724],[864,790]]},
+            {baseModel:"KZ-160", springForce:8, springTorque:[223,308], cylinderTorque:[[174,89],[240,155],[306,221],[372,287],[439,354],[505,420],[571,486],[637,552],[703,618],[770,685],[836,751]]},
+            {baseModel:"KZ-160", springForce:9, springTorque:[251,347], cylinderTorque:[[146,51],[212,117],[278,183],[344,249],[411,316],[477,382],[543,448],[609,514],[675,580],[742,647],[808,713]]},
+            {baseModel:"KZ-160", springForce:10, springTorque:[279,385], cylinderTorque:[[118,12],[184,78],[250,144],[316,210],[383,277],[449,343],[515,409],[581,475],[647,541],[714,608],[780,674]]},
+            {baseModel:"KZ-160", springForce:11, springTorque:[307,424], cylinderTorque:[[null,null],[156,40],[222,106],[288,172],[355,239],[421,305],[487,371],[553,437],[619,503],[686,570],[752,636]]},
+            {baseModel:"KZ-160", springForce:12, springTorque:[335,462], cylinderTorque:[[null,null],[null,null],[128,1],[194,67],[260,133],[327,200],[393,266],[459,332],[525,398],[591,464],[658,531]]},
+            // KZ-190（5-12根）
+            {baseModel:"KZ-190", springForce:5, springTorque:[190,320], cylinderTorque:[[451,320],[557,426],[664,533],[771,640],[878,747],[984,853],[1091,960],[1198,1067],[1304,1173],[1411,1280],[1518,1387]]},
+            {baseModel:"KZ-190", springForce:6, springTorque:[227,384], cylinderTorque:[[413,256],[519,362],[626,469],[733,576],[840,683],[946,789],[1053,896],[1160,1003],[1266,1109],[1373,1216],[1480,1259]]},
+            {baseModel:"KZ-190", springForce:7, springTorque:[265,448], cylinderTorque:[[375,192],[481,298],[588,405],[695,512],[802,619],[908,725],[1015,832],[1122,939],[1228,1045],[1335,1152],[1442,1259]]},
+            {baseModel:"KZ-190", springForce:8, springTorque:[303,512], cylinderTorque:[[337,128],[443,234],[550,341],[657,448],[764,555],[870,661],[977,768],[1084,875],[1190,981],[1297,1088],[1404,1195]]},
+            {baseModel:"KZ-190", springForce:9, springTorque:[341,576], cylinderTorque:[[299,64],[405,170],[512,277],[619,384],[726,491],[832,597],[939,704],[1046,811],[1152,917],[1259,1024],[1366,1131]]},
+            {baseModel:"KZ-190", springForce:10, springTorque:[379,640], cylinderTorque:[[261,0],[367,106],[474,213],[581,320],[688,427],[794,533],[901,640],[1008,747],[1114,853],[1221,960],[1328,1067]]},
+            {baseModel:"KZ-190", springForce:11, springTorque:[417,704], cylinderTorque:[[null,null],[329,42],[436,149],[543,256],[650,363],[756,469],[863,576],[970,683],[1076,789],[1183,896],[1290,1003]]},
+            {baseModel:"KZ-190", springForce:12, springTorque:[455,768], cylinderTorque:[[null,null],[null,null],[398,85],[505,192],[612,299],[718,405],[825,512],[932,619],[1038,725],[1145,832],[1252,939]]},
+            // KZ-210（5-12根）
+            {baseModel:"KZ-210", springForce:5, springTorque:[261,400], cylinderTorque:[[538,398],[671,531],[804,664],[937,797],[1070,930],[1203,1063],[1336,1196],[1469,1329],[1602,1462],[1735,1595],[1868,1728]]},
+            {baseModel:"KZ-210", springForce:6, springTorque:[313,480], cylinderTorque:[[485,318],[618,451],[751,584],[884,717],[1017,850],[1150,983],[1283,1116],[1416,1249],[1549,1382],[1682,1515],[1815,1648]]},
+            {baseModel:"KZ-210", springForce:7, springTorque:[365,560], cylinderTorque:[[433,238],[566,371],[699,504],[832,637],[965,770],[1098,903],[1231,1036],[1364,1169],[1497,1302],[1630,1435],[1763,1568]]},
+            {baseModel:"KZ-210", springForce:8, springTorque:[417,640], cylinderTorque:[[381,158],[514,291],[647,424],[780,557],[913,690],[1046,823],[1179,956],[1312,1089],[1445,1222],[1578,1355],[1711,1488]]},
+            {baseModel:"KZ-210", springForce:9, springTorque:[469,720], cylinderTorque:[[329,78],[462,211],[595,344],[728,477],[861,610],[994,743],[1127,876],[1260,1009],[1393,1142],[1526,1275],[1659,1408]]},
+            {baseModel:"KZ-210", springForce:10, springTorque:[521,800], cylinderTorque:[[null,null],[410,131],[543,264],[676,397],[809,530],[942,663],[1075,796],[1208,929],[1341,1062],[1474,1195],[1607,1328]]},
+            {baseModel:"KZ-210", springForce:11, springTorque:[573,880], cylinderTorque:[[null,null],[358,51],[491,184],[624,317],[757,450],[890,583],[1023,716],[1156,849],[1289,982],[1422,1115],[1555,1248]]},
+            {baseModel:"KZ-210", springForce:12, springTorque:[625,960], cylinderTorque:[[null,null],[null,null],[439,104],[572,237],[705,370],[838,503],[971,636],[1104,769],[1237,902],[1370,1035],[1503,1168]]},
+            // KZ-240（5-12根）
+            {baseModel:"KZ-240", springForce:5, springTorque:[389,585], cylinderTorque:[[766,570],[957,761],[1150,954],[1342,1146],[1535,1339],[1727,1531],[1920,1724],[2112,1916],[2305,2109],[2497,2301],[2689,2493]]},
+            {baseModel:"KZ-240", springForce:6, springTorque:[467,702], cylinderTorque:[[688,453],[879,644],[1072,837],[1264,1029],[1457,1222],[1649,1414],[1842,1607],[2034,1799],[2227,1992],[2419,2184],[2611,2376]]},
+            {baseModel:"KZ-240", springForce:7, springTorque:[545,819], cylinderTorque:[[610,336],[801,527],[994,720],[1186,912],[1379,1105],[1571,1297],[1764,1490],[1956,1682],[2149,1875],[2341,2067],[2533,2259]]},
+            {baseModel:"KZ-240", springForce:8, springTorque:[622,936], cylinderTorque:[[533,219],[724,410],[917,603],[1109,795],[1302,988],[1494,1180],[1687,1373],[1879,1565],[2072,1758],[2264,1950],[2456,2142]]},
+            {baseModel:"KZ-240", springForce:9, springTorque:[700,1053], cylinderTorque:[[455,102],[646,293],[839,486],[1031,678],[1224,871],[1416,1063],[1609,1256],[1801,1448],[1994,1641],[2186,1833],[2378,2025]]},
+            {baseModel:"KZ-240", springForce:10, springTorque:[778,1170], cylinderTorque:[[null,null],[568,176],[761,369],[953,561],[1146,754],[1338,946],[1531,1139],[1723,1331],[1916,1524],[2108,1716],[2300,1908]]},
+            {baseModel:"KZ-240", springForce:11, springTorque:[856,1287], cylinderTorque:[[null,null],[490,59],[683,252],[875,444],[1068,637],[1260,829],[1453,1022],[1645,1214],[1838,1407],[2030,1599],[2222,1791]]},
+            {baseModel:"KZ-240", springForce:12, springTorque:[934,1404], cylinderTorque:[[null,null],[null,null],[605,135],[797,327],[990,520],[1182,712],[1375,905],[1567,1097],[1760,1290],[1952,1482],[2144,1674]]},
+            // KZ-270（5-12根）
+            {baseModel:"KZ-270", springForce:5, springTorque:[505,910], cylinderTorque:[[1250,845],[1541,1136],[1835,1430],[2126,1721],[2419,2014],[2711,2306],[3005,2600],[3295,2890],[3590,3185],[3881,3476],[4175,3770]]},
+            {baseModel:"KZ-270", springForce:6, springTorque:[606,1092], cylinderTorque:[[1149,663],[1440,954],[1734,1248],[2025,1539],[2318,1832],[2610,2124],[2904,2418],[3194,2708],[3489,3003],[3780,3294],[4074,3588]]},
+            {baseModel:"KZ-270", springForce:7, springTorque:[707,1274], cylinderTorque:[[1048,481],[1339,772],[1633,1066],[1924,1357],[2217,1650],[2509,1942],[2803,2236],[3093,2526],[3388,2821],[3679,3112],[3973,3406]]},
+            {baseModel:"KZ-270", springForce:8, springTorque:[808,1456], cylinderTorque:[[947,299],[1238,590],[1532,884],[1823,1175],[2116,1468],[2408,1760],[2702,2054],[2992,2344],[3287,2639],[3578,2930],[3872,3224]]},
+            {baseModel:"KZ-270", springForce:9, springTorque:[909,1638], cylinderTorque:[[846,117],[1137,408],[1431,702],[1722,993],[2015,1286],[2307,1578],[2601,1872],[2891,2162],[3186,2457],[3477,2748],[3771,3042]]},
+            {baseModel:"KZ-270", springForce:10, springTorque:[1010,1820], cylinderTorque:[[null,null],[1036,226],[1330,520],[1621,811],[1914,1104],[2206,1396],[2500,1690],[2790,1980],[3085,2275],[3376,2566],[3670,2860]]},
+            {baseModel:"KZ-270", springForce:11, springTorque:[1111,2002], cylinderTorque:[[null,null],[935,44],[1229,338],[1520,629],[1813,922],[2105,1214],[2399,1508],[2689,1798],[2984,2093],[3275,2384],[3569,2678]]},
+            {baseModel:"KZ-270", springForce:12, springTorque:[1212,2184], cylinderTorque:[[null,null],[null,null],[1128,156],[1419,447],[1712,740],[2004,1032],[2298,1326],[2588,1616],[2883,1911],[3174,2202],[3468,2496]]},
+            // KZ-300（5-12根）
+            {baseModel:"KZ-300", springForce:5, springTorque:[725,1145], cylinderTorque:[[1566,1146],[1948,1528],[2330,1910],[2712,2292],[3094,2674],[3475,3055],[3857,3437],[4239,3819],[4621,4201],[5003,4583],[5385,4965]]},
+            {baseModel:"KZ-300", springForce:6, springTorque:[870,1374], cylinderTorque:[[1421,917],[1803,1299],[2185,1681],[2567,2063],[2949,2445],[3330,2826],[3712,3208],[4094,3590],[4476,3972],[4858,4354],[5240,4736]]},
+            {baseModel:"KZ-300", springForce:7, springTorque:[1015,1603], cylinderTorque:[[1276,688],[1658,1070],[2040,1452],[2422,1834],[2804,2216],[3185,2597],[3567,2979],[3949,3361],[4331,3743],[4713,4125],[5095,4507]]},
+            {baseModel:"KZ-300", springForce:8, springTorque:[1160,1832], cylinderTorque:[[1131,459],[1513,841],[1895,1223],[2277,1605],[2659,1987],[3040,2368],[3422,2750],[3804,3132],[4186,3514],[4568,3896],[4950,4278]]},
+            {baseModel:"KZ-300", springForce:9, springTorque:[1305,2061], cylinderTorque:[[986,230],[1368,612],[1750,994],[2132,1376],[2514,1758],[2895,2139],[3277,2521],[3659,2903],[4041,3285],[4423,3667],[4805,4049]]},
+            {baseModel:"KZ-300", springForce:10, springTorque:[1450,2290], cylinderTorque:[[null,null],[1223,383],[1605,765],[1987,1147],[2369,1529],[2750,1910],[3132,2292],[3514,2674],[3896,3056],[4278,3438],[4660,3820]]},
+            {baseModel:"KZ-300", springForce:11, springTorque:[1595,2519], cylinderTorque:[[null,null],[1078,154],[1460,536],[1842,918],[2224,1300],[2605,1681],[2987,2063],[3369,2445],[3751,2827],[4133,3209],[4515,3591]]},
+            {baseModel:"KZ-300", springForce:12, springTorque:[1740,2748], cylinderTorque:[[null,null],[null,null],[1315,307],[1697,689],[2079,1071],[2460,1452],[2842,1834],[3224,2216],[3606,2598],[3988,2980],[4370,3362]]},
+            // KZ-350（5-12根）
+            {baseModel:"KZ-350", springForce:5, springTorque:[1173,1702.5], cylinderTorque:[[2253,1723.5],[2824,2294.5],[3395,2865.5],[3966,3436.5],[4537,4007.5],[5108,4578.5],[5679,5149.5],[6250,5720.5],[6821,6291.5],[7413,6883.5],[7963,7433.5]]},
+            {baseModel:"KZ-350", springForce:6, springTorque:[1407.6,2043], cylinderTorque:[[2018.4,1383],[2589.4,1954],[3160.4,2525],[3731.4,3096],[4302.4,3667],[4873.4,4238],[5444.4,4809],[6015.4,5380],[6586.4,5951],[7178.4,6543],[7728.4,7093]]},
+            {baseModel:"KZ-350", springForce:7, springTorque:[1642.2,2383.5], cylinderTorque:[[1783.8,1042.5],[2354.8,1613.5],[2925.8,2184.5],[3496.8,2755.5],[4067.8,3326.5],[4638.8,3897.5],[5209.8,4468.5],[5780.8,5039.5],[6351.8,5610.5],[6943.8,6202.5],[7493.8,6752.5]]},
+            {baseModel:"KZ-350", springForce:8, springTorque:[1876.8,2724], cylinderTorque:[[1549.2,702],[2120.2,1273],[2691.2,1844],[3262.2,2415],[3833.2,2986],[4404.2,3557],[4975.2,4128],[5546.2,4699],[6117.2,5270],[6709.2,5862],[7259.2,6412]]},
+            {baseModel:"KZ-350", springForce:9, springTorque:[2111.4,3064.5], cylinderTorque:[[1314.6,361.5],[1885.6,932.5],[2456.6,1503.5],[3027.6,2074.5],[3598.6,2645.5],[4169.6,3216.5],[4740.6,3787.5],[5311.6,4358.5],[5882.6,4929.5],[6474.6,5521.5],[7024.6,6071.5]]},
+            {baseModel:"KZ-350", springForce:10, springTorque:[2346,3405], cylinderTorque:[[1080,21],[1651,592],[2222,1163],[2793,1734],[3364,2305],[3935,2876],[4506,3447],[5077,4018],[5648,4589],[6240,5181],[6790,5731]]},
+            {baseModel:"KZ-350", springForce:11, springTorque:[2580.6,3745.5], cylinderTorque:[[null,null],[1416.4,251.5],[1987.4,822.5],[2558.4,1393.5],[3129.4,1964.5],[3700.4,2535.5],[4271.4,3106.5],[4842.4,3677.5],[5413.4,4248.5],[6005.4,4840.5],[6555.4,5390.5]]},
+            {baseModel:"KZ-350", springForce:12, springTorque:[2815.2,4086], cylinderTorque:[[null,null],[null,null],[1752.8,482],[2323.8,1053],[2894.8,1624],[3465.8,2195],[4036.8,2766],[4607.8,3337],[5178.8,3908],[5770.8,4500],[6320.8,5050]]},
+            // KZ-400（7-16根）
+            {baseModel:"KZ-400", springForce:7, springTorque:[1836.8,2880.5], cylinderTorque:[[3035.2,1991.5],[3847.2,2803.5],[4659.2,3615.5],[5471.2,4427.5],[6283.2,5239.5],[7095.2,6051.5],[7907.2,6863.5],[8719.2,7675.5],[9531.2,8487.5],[10343.2,9299.5],[11155.2,10111.5]]},
+            {baseModel:"KZ-400", springForce:8, springTorque:[2099.2,3292], cylinderTorque:[[2772.8,1580],[3584.8,2392],[4396.8,3204],[5208.8,4016],[6020.8,4828],[6832.8,5640],[7644.8,6452],[8456.8,7264],[9268.8,8076],[10080.8,8888],[10892.8,9700]]},
+            {baseModel:"KZ-400", springForce:9, springTorque:[2361.6,3703.5], cylinderTorque:[[2510.4,1168.5],[3322.4,1980.5],[4134.4,2792.5],[4946.4,3604.5],[5758.4,4416.5],[6570.4,5228.5],[7382.4,6040.5],[8194.4,6852.5],[9006.4,7664.5],[9818.4,8476.5],[10630.4,9288.5]]},
+            {baseModel:"KZ-400", springForce:10, springTorque:[2624,4115], cylinderTorque:[[2248,757],[3060,1569],[3872,2381],[4684,3193],[5496,4005],[6308,4817],[7120,5629],[7932,6441],[8744,7253],[9556,8065],[10368,8877]]},
+            {baseModel:"KZ-400", springForce:11, springTorque:[2886.4,4526.5], cylinderTorque:[[1985.6,345.5],[2797.6,1157.5],[3609.6,1969.5],[4421.6,2781.5],[5233.6,3593.5],[6045.6,4405.5],[6857.6,5217.5],[7669.6,6029.5],[8481.6,6841.5],[9293.6,7653.5],[10105.6,8465.5]]},
+            {baseModel:"KZ-400", springForce:12, springTorque:[3148.8,4938], cylinderTorque:[[null,null],[2535.2,746],[3347.2,1558],[4159.2,2370],[4971.2,3182],[5783.2,3994],[6595.2,4806],[7407.2,5618],[8219.2,6430],[9031.2,7242],[9843.2,8054]]},
+            {baseModel:"KZ-400", springForce:13, springTorque:[3411.2,5349.5], cylinderTorque:[[null,null],[2272.8,334.5],[3084.8,1146.5],[3896.8,1958.5],[4708.8,2770.5],[5520.8,3582.5],[6332.8,4394.5],[7144.8,5206.5],[7956.8,6018.5],[8768.8,6830.5],[9580.8,7642.5]]},
+            {baseModel:"KZ-400", springForce:14, springTorque:[3673.6,5761], cylinderTorque:[[null,null],[null,null],[2822.4,735],[3634.4,1547],[4446.4,2359],[5258.4,3171],[6070.4,3983],[6882.4,4795],[7694.4,5607],[8506.4,6419],[9318.4,7231]]},
+            {baseModel:"KZ-400", springForce:15, springTorque:[3936,6172.5], cylinderTorque:[[null,null],[null,null],[2560,323.5],[3372,1135.5],[4184,1947.5],[4996,2759.5],[5808,3571.5],[6620,4383.5],[7432,5195.5],[8244,6007.5],[9056,6819.5]]},
+            {baseModel:"KZ-400", springForce:16, springTorque:[4198.4,6584], cylinderTorque:[[null,null],[null,null],[null,null],[3109.6,724],[3921.6,1536],[4733.6,2348],[5545.6,3160],[6357.6,3972],[7169.6,4784],[7981.6,5596],[8793.6,6408]]},
+            // ========== 其他型号添加位置（按以下规则）==========
+            // 1. 按【型号从小到大】排序（如KZ-52、KZ-63、KZ-75...依次添加）
+            // 2. 同型号按【弹簧根数从少到多】排序
+            // 3. cylinderTorque为11组数据，对应3.0-8.0bar，无数据填[null,null]
+            // 复制模板改参数：
+            // {baseModel:"新增型号", springForce:弹簧数, springTorque:[0°扭矩,90°扭矩], cylinderTorque:[[3.0bar0°,3.0bar90°],[3.5bar0°,3.5bar90°],[4.0bar0°,4.0bar90°],[4.5bar0°,4.5bar90°],[5.0bar0°,5.0bar90°],[5.5bar0°,5.5bar90°],[6.0bar0°,6.0bar90°],[6.5bar0°,6.5bar90°],[7.0bar0°,7.0bar90°],[7.5bar0°,7.5bar90°],[8.0bar0°,8.0bar90°]]},
+            // ================================================
+        ];
+        const pressureIdxMap = {"3.0":0,"3.5":1,"4.0":2,"4.5":3,"5.0":4,"5.5":5,"6.0":6,"6.5":7,"7.0":8,"7.5":9,"8.0":10};
+        let allRows = []; // 存储所有表格行
+        
+        // 页面加载直接渲染表格，确保示例数据显示
+        window.onload = function() {
+            renderTable();
+        };
+        
+        // 简化版渲染函数，直接渲染示例数据
+        function renderTable(customData = null) {
+            const tbody = document.getElementById("tableBody");
+            tbody.innerHTML = "";
+            allRows = [];
+            const renderData = customData || torqueData;
+            
+            // 循环渲染每一行数据
+            renderData.forEach(item => {
+                const tr = document.createElement("tr");
+                // 主型号列 + 弹簧根数列
+                tr.innerHTML += `<td class="fixed-col">${item.baseModel}</td><td class="fixed-col-spring">${item.springForce}</td>`;
+                // 弹簧扭矩0° + 90°列
+                tr.innerHTML += `<td class="spring-torque-col">${item.springTorque[0]}</td><td class="spring-torque-col">${item.springTorque[1]}</td>`;
+                // 各气压下的气缸扭矩（0°和90°）
+                item.cylinderTorque.forEach(pair => {
+                    const t0 = pair[0] ?? "-"; // 无数据显示"-"
+                    const t90 = pair[1] ?? "-";
+                    tr.innerHTML += `<td>${t0}</td><td>${t90}</td>`;
+                });
+                tbody.appendChild(tr);
+                allRows.push({ tr, data: item });
+            });
+        }
+        
+        function calculateAndSelect() {
+            const valveTorque = parseFloat(document.getElementById("valveTorque").value);
+            const safetyFactor = parseFloat(document.getElementById("safetyFactor").value);
+            const airPressure = document.getElementById("airPressure").value;
+            const requiredTorque = valveTorque * safetyFactor;
+            const pressureIdx = pressureIdxMap[airPressure];
+            
+            if (isNaN(valveTorque) || valveTorque <= 0) {
+                alert("请输入有效扭矩（>0）");
+                return;
+            }
+            
+            // 重置样式
+            resetStyle();
+            
+            // 填充结果面板
+            document.getElementById("valveTorqueDisplay").textContent = valveTorque + "Nm";
+            document.getElementById("safetyFactorDisplay").textContent = "×" + safetyFactor;
+            document.getElementById("requiredTorqueDisplay").textContent = requiredTorque.toFixed(2) + "Nm";
+            document.getElementById("airPressureDisplay").textContent = airPressure + "bar";
+            document.getElementById("resultPanel").style.display = "block";
+            document.getElementById("bestModel").textContent = "无匹配型号";
+            document.getElementById("springForceDisplay").textContent = "--";
+            document.getElementById("spring0Display").textContent = "--";
+            document.getElementById("spring90Display").textContent = "--";
+            document.getElementById("cylinder0Display").textContent = "--";
+            document.getElementById("cylinder90Display").textContent = "--";
+            
+            // 核心逻辑：严格按数组顺序（型号从小到大）遍历，找到第一个满足4个扭矩条件的型号即停止
+            let firstMatch = null;
+            for (let i = 0; i < torqueData.length; i++) {
+                const item = torqueData[i];
+                const spring0 = item.springTorque[0];
+                const spring90 = item.springTorque[1];
+                const cylinderPair = item.cylinderTorque[pressureIdx];
+                const cylinder0 = cylinderPair[0] ?? 0;
+                const cylinder90 = cylinderPair[1] ?? 0;
+                
+                // 四个数据必须同时≥所需扭矩，且气缸扭矩不为空
+                if (spring0 >= requiredTorque && spring90 >= requiredTorque && cylinder0 >= requiredTorque && cylinder90 >= requiredTorque && cylinder0 !== "-" && cylinder90 !== "-") {
+                    firstMatch = item;
+                    break; // 找到第一个即停止，确保型号最小优先
+                }
+            }
+            
+            if (firstMatch) {
+                // 填充匹配结果
+                document.getElementById("bestModel").textContent = firstMatch.baseModel + "-" + firstMatch.springForce + "根弹簧";
+                document.getElementById("springForceDisplay").textContent = firstMatch.springForce + "根";
+                document.getElementById("spring0Display").textContent = firstMatch.springTorque[0] + "Nm";
+                document.getElementById("spring90Display").textContent = firstMatch.springTorque[1] + "Nm";
+                document.getElementById("cylinder0Display").textContent = firstMatch.cylinderTorque[pressureIdx][0] + "Nm";
+                document.getElementById("cylinder90Display").textContent = firstMatch.cylinderTorque[pressureIdx][1] + "Nm";
+                
+                // 匹配行置顶
+                const topData = [firstMatch];
+                const restData = torqueData.filter(item => !(item.baseModel === firstMatch.baseModel && item.springForce === firstMatch.springForce));
+                renderTable([...topData, ...restData]);
+                
+                // 5个核心单元格闪烁：主型号 + 弹簧0° + 弹簧90° + 气缸0° + 气缸90°
+                const matchRow = allRows[0].tr;
+                const tds = matchRow.querySelectorAll("td");
+                tds[0].classList.add("blink-cell"); // 主型号单元格
+                tds[2].classList.add("blink-cell"); // 弹簧扭矩0°
+                tds[3].classList.add("blink-cell"); // 弹簧扭矩90°
+                tds[4 + pressureIdx * 2].classList.add("blink-cell", "active-col"); // 气缸0°
+                tds[5 + pressureIdx * 2].classList.add("blink-cell", "active-col"); // 气缸90°
+                
+                // 选中气压列高亮
+                const ths = document.querySelectorAll("#torqueTable th");
+                ths[4 + pressureIdx * 2].classList.add("active-th");
+                ths[5 + pressureIdx * 2].classList.add("active-th");
+            }
+        }
+        
+        // 重置样式和表格
+        function resetStyle() {
+            document.querySelectorAll(".blink-cell,.active-col,.active-th").forEach(el => {
+                el.classList.remove("blink-cell", "active-col", "active-th");
+            });
+            renderTable(); // 重置为原始表格
+        }
+    </script>
+</body>
+</html>
