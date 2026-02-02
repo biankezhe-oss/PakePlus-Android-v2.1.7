@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>双作用执行器选型助手 - 无锡科振自控阀门有限公司</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+        }
+        body {
+            padding: 16px;
+            background: linear-gradient(135deg, #f7f9fc 0%, #f0f4f8 100%);
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+        /* 顶部标题区优化 - 简洁高端 无多余装饰 */
+        .header {
+            text-align: center;
+            margin-bottom: 24px;
+            padding: 15px 0;
+        }
+        .company-name {
+            font-size: 26px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            letter-spacing: 0.5px;
+            background: linear-gradient(90deg, #1e40af, #3b82f6);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            line-height: 1.3;
+        }
+        .tool-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #334155;
+            letter-spacing: 0.3px;
+            padding-bottom: 8px;
+            position: relative;
+        }
+        .tool-title::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 2.5px;
+            background: linear-gradient(90deg, #3b82f6, #1e40af);
+            border-radius: 2px;
+        }
+        /* 容器样式 */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            border-radius: 24px;
+            padding: 28px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            position: relative;
+            overflow: hidden;
+        }
+        .container::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #1e40af, #3b82f6);
+        }
+        /* 输入框样式 */
+        .form-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 24px;
+            align-items: center;
+        }
+        .form-group label {
+            font-size: 15px;
+            color: #475569;
+            flex: 0 0 auto;
+            font-weight: 500;
+        }
+        .form-control {
+            flex: 1;
+            min-width: 150px;
+            padding: 14px 18px;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 16px;
+            color: #1e293b;
+            outline: none;
+            background-color: #f8fafc;
+            transition: all 0.2s ease;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+        .form-control:focus {
+            border-color: #3b82f6;
+            background-color: #ffffff;
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+        }
+        /* 按钮样式 */
+        .btn-search {
+            padding: 14px 28px;
+            background: linear-gradient(90deg, #1e40af, #3b82f6);
+            color: #ffffff;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            flex: 0 0 auto;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.2);
+        }
+        .btn-search:hover {
+            background: linear-gradient(90deg, #3b82f6, #60a5fa);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.25);
+        }
+        .btn-search:active {
+            background: linear-gradient(90deg, #1e3a8a, #1e40af);
+            transform: translateY(0);
+            box-shadow: 0 4px 10px rgba(59, 130, 246, 0.2);
+        }
+        /* 结果面板 */
+        .result-panel {
+            background-color: #f0f7ff;
+            border-radius: 16px;
+            padding: 22px;
+            margin-bottom: 28px;
+            border: 1px solid #dbeafe;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.05);
+        }
+        .recommended-model {
+            font-size: 22px;
+            color: #3b82f6;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 16px;
+            letter-spacing: -0.2px;
+        }
+        .result-details {
+            font-size: 15px;
+            color: #475569;
+            line-height: 1.7;
+            text-align: center;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+        }
+        .detail-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .highlight {
+            color: #3b82f6;
+            font-weight: 600;
+        }
+        /* 表格样式 */
+        .table-container {
+            overflow-x: auto;
+            border-radius: 16px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+            margin-bottom: 24px;
+            -webkit-overflow-scrolling: touch;
+            width: 100%;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #ffffff;
+            border-radius: 16px;
+            overflow: hidden;
+            min-width: 600px;
+        }
+        th {
+            padding: 12px 10px;
+            text-align: center;
+            border-bottom: 1px solid #e2e8f0;
+            background-color: #f8fafc;
+            color: #475569;
+            font-weight: 500;
+            font-size: 13px;
+            position: sticky;
+            top: 0;
+            white-space: nowrap;
+        }
+        td {
+            padding: 14px 8px;
+            text-align: center;
+            border-bottom: 1px solid #f1f5f9;
+            font-size: 14px;
+            color: #1e293b;
+            transition: background-color 0.2s ease;
+            white-space: nowrap;
+        }
+        tr:hover {
+            background-color: #fafafa;
+        }
+        /* 最小匹配型号行样式（仅轻微加粗） */
+        .best-match-row {
+            font-weight: 500;
+        }
+        /* 压力列样式（仅加粗，颜色不变） */
+        .pressure-highlight {
+            font-weight: 600;
+            font-size: 15px;
+        }
+        /* 仅目标单元格橙色底色动态闪烁，不改变字体颜色 + 圆形边角 */
+        @keyframes blink {
+            0% { background-color: #ffffff; border-radius: 8px; }
+            50% { background-color: #ff9900; border-radius: 8px; }
+            100% { background-color: #ffffff; border-radius: 8px; }
+        }
+        .blink-effect {
+            animation: blink 1.2s infinite;
+            border-radius: 8px; /* 固定圆角，确保闪烁时边角始终圆润 */
+            overflow: hidden;
+        }
+        .no-match {
+            color: #ef4444;
+            text-align: center;
+            padding: 35px 15px;
+            font-size: 16px;
+            background-color: #fef2f2;
+            border-radius: 16px;
+        }
+        /* 底部说明 */
+        .footer-note {
+            margin-top: 24px;
+            text-align: center;
+            font-size: 13px;
+            color: #94a3b8;
+            line-height: 1.6;
+        }
+        /* 下拉框箭头 */
+        select.form-control {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23475569' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 18px center;
+            padding-right: 42px;
+        }
+        /* 手机端适配 */
+        @media (max-width: 768px) {
+            .container {
+                padding: 22px;
+                border-radius: 20px;
+            }
+            .company-name {
+                font-size: 22px;
+            }
+            .tool-title {
+                font-size: 18px;
+            }
+            .tool-title::after {
+                width: 80px;
+            }
+            .form-group {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 8px;
+                margin-bottom: 20px;
+            }
+            .form-group label {
+                margin-bottom: 4px;
+                font-size: 14px;
+            }
+            .form-control {
+                padding: 13px 16px;
+                font-size: 15px;
+                min-width: auto;
+            }
+            .btn-search {
+                width: 100%;
+                padding: 14px;
+                margin-top: 8px;
+            }
+            .result-panel {
+                padding: 20px;
+            }
+            .recommended-model {
+                font-size: 20px;
+            }
+            .result-details {
+                gap: 10px;
+                font-size: 14px;
+            }
+            th {
+                padding: 10px 6px;
+                font-size: 12px;
+            }
+            td {
+                padding: 12px 5px;
+                font-size: 13px;
+            }
+            .pressure-highlight {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 顶部标题区（无侧条 简洁高端） -->
+    <div class="header">
+        <div class="company-name">无锡科振自控阀门有限公司</div>
+        <div class="tool-title">双作用执行器选型助手</div>
+    </div>
+    
+    <div class="container">
+        <!-- 输入区 -->
+        <div class="form-group">
+            <label for="valveTorque">阀门扭矩 (Nm)：</label>
+            <input type="number" id="valveTorque" class="form-control" min="0.1" step="0.01" placeholder="输入阀门实际扭矩" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="safetyFactor">安全系数：</label>
+            <select id="safetyFactor" class="form-control" required>
+                <option value="1">含安全系数（直接匹配）</option>
+                <option value="1.2">不含 - 乘以1.2倍</option>
+                <option value="1.3">不含 - 乘以1.3倍</option>
+                <option value="1.4">不含 - 乘以1.4倍</option>
+                <option value="1.5">不含 - 乘以1.5倍</option>
+                <option value="1.6">不含 - 乘以1.6倍</option>
+                <option value="1.7">不含 - 乘以1.7倍</option>
+                <option value="1.8">不含 - 乘以1.8倍</option>
+                <option value="1.9">不含 - 乘以1.9倍</option>
+                <option value="2.0">不含 - 乘以2.0倍</option>
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label for="airPressure">气源压力 (bar)：</label>
+            <select id="airPressure" class="form-control" required>
+                <option value="3">3.0</option>
+                <option value="3.5">3.5</option>
+                <option value="4">4.0</option>
+                <option value="4.5">4.5</option>
+                <option value="5">5.0</option>
+                <option value="5.5">5.5</option>
+                <option value="6">6.0</option>
+                <option value="6.5">6.5</option>
+                <option value="7">7.0</option>
+                <option value="7.5">7.5</option>
+                <option value="8">8.0</option>
+            </select>
+            <button class="btn-search" onclick="calculateAndSelect()">开始选型</button>
+        </div>
+        
+        <!-- 结果区 -->
+        <div class="result-panel" id="resultPanel" style="display: none;">
+            <div class="recommended-model">推荐型号：<span id="bestModel"></span></div>
+            <div class="result-details">
+                <div class="detail-item">阀门扭矩：<span class="highlight" id="valveTorqueDisplay"></span></div>
+                <div class="detail-item">安全系数：<span class="highlight" id="safetyFactorDisplay"></span></div>
+                <div class="detail-item">所需扭矩：<span class="highlight" id="requiredTorqueDisplay"></span></div>
+                <div class="detail-item">气源压力：<span class="highlight" id="airPressureDisplay"></span></div>
+                <div class="detail-item">执行器输出扭矩：<span class="highlight" id="actuatorTorqueDisplay"></span></div>
+            </div>
+        </div>
+        
+        <!-- 表格（表头标签彻底修正 正常显示） -->
+        <div class="table-container">
+            <table id="torqueTable">
+                <thead>
+                    <tr>
+                        <<th>型号（DA）</</th>
+                        <<th>3bar</</th>
+                        <<th>3.5bar</</th>
+                        <<th>4bar</</th>
+                        <<th>4.5bar</</th>
+                        <<th>5bar</</th>
+                        <<th>5.5bar</</th>
+                        <<th>6bar</</th>
+                        <<th>6.5bar</</th>
+                        <<th>7bar</</th>
+                        <<th>7.5bar</</th>
+                        <<th>8bar</</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+                    <!-- 动态填充 -->
+                </tbody>
+            </table>
+        </div>
+        
+        <div class="footer-note">
+            选型说明：推荐型号为对应气源压力下输出扭矩≥所需扭矩的最小型号 | 推荐型号自动置顶，橙色圆角闪烁区域为核心数据，手机端一目了然
+        </div>
+    </div>
+    <script>
+        // 数据
+        const torqueData = [
+            { model: "KZ-45", values: [9.1, 10.6, 12.1, 13.6, 15.1, 16.6, 18.1, 19.6, 21.1, 22.6, 24.1] },
+            { model: "KZ-52", values: [12, 14, 16, 18, 20, 22, 24, 26, 28, 30, 32] },
+            { model: "KZ-63", values: [21.675, 25.2, 28.9, 32.4, 36, 39.6, 43.35, 46.8, 50.575, 54, 57.8] },
+            { model: "KZ-75", values: [30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80] },
+            { model: "KZ-83", values: [46.8, 54.6, 62.4, 70.2, 78, 85.8, 93.6, 101.4, 109.2, 117, 124.8] },
+            { model: "KZ-92", values: [67.575, 78.82, 90.1, 101.34, 112.6, 123.86, 135.15, 146.38, 157.675, 168.9, 180.2] },
+            { model: "KZ-105", values: [97.725, 114.0125, 130.3, 146.5875, 162.875, 179.1625, 195.45, 211.7375, 228.025, 244.3125, 260.6] },
+            { model: "KZ-125", values: [150.48, 175.56, 200.64, 225.72, 250.8, 275.88, 300.96, 326.04, 351.12, 376.2, 401.28] },
+            { model: "KZ-140", values: [260.7, 303.66, 347.6, 390.42, 433.8, 477.18, 521.4, 563.94, 608.3, 650.7, 695.2] },
+            { model: "KZ-160", values: [397.2, 463.4, 529.6, 595.8, 662, 728.2, 794.4, 860.6, 926.8, 993, 1059.2] },
+            { model: "KZ-190", values: [640.2, 746.9, 853.6, 960.3, 1067, 1173.7, 1280.4, 1387.1, 1493.8, 1600.5, 1707.2] },
+            { model: "KZ-210", values: [798, 931, 1064, 1197, 1330, 1463, 1596, 1729, 1862, 1995, 2128] },
+            { model: "KZ-240", values: [1154.4, 1346.8, 1539.2, 1731.6, 1924, 2116.4, 2308.8, 2501.2, 2693.6, 2886, 3078.4] },
+            { model: "KZ-270", values: [1754.4, 2046.8, 2339.2, 2631.6, 2924, 3216.4, 3508.8, 3801.2, 4093.6, 4386, 4678.4] },
+            { model: "KZ-300", values: [2291.4, 2673.3, 3055.2, 3437.1, 3819, 4200.9, 4582.8, 4964.7, 5346.6, 5728.5, 6110.4] },
+            { model: "KZ-350", values: [3426, 3997, 4568, 5139, 5710, 6281, 6852, 7423, 7994, 8565, 9136] },
+            { model: "KZ-400", values: [4872, 5684, 6496, 7308, 8120, 8932, 9744, 10556, 11368, 12180, 12992] }
+        ];
+        const pressureIndexes = {
+            3: 0, 3.5: 1, 4: 2, 4.5: 3, 5: 4,
+            5.5: 5, 6: 6, 6.5: 7, 7: 8, 7.5: 9, 8: 10
+        };
+        // 初始化表格
+        function initTable() {
+            const tableBody = document.getElementById("tableBody");
+            tableBody.innerHTML = "";
+            torqueData.forEach(item => {
+                const tr = document.createElement("tr");
+                let tdHtml = `<td>${item.model}DA</td>`;
+                item.values.forEach(val => {
+                    tdHtml += `<td>${val}</td>`;
+                });
+                tr.innerHTML = tdHtml;
+                tableBody.appendChild(tr);
+            });
+        }
+        // 选型计算 + 推荐型号置顶
+        function calculateAndSelect() {
+            try {
+                const valveTorque = parseFloat(document.getElementById("valveTorque").value);
+                const safetyFactor = parseFloat(document.getElementById("safetyFactor").value);
+                const airPressure = parseFloat(document.getElementById("airPressure").value);
+                const resultPanel = document.getElementById("resultPanel");
+                if (isNaN(valveTorque) || valveTorque <= 0) {
+                    alert("请输入有效的阀门扭矩（大于0）");
+                    return;
+                }
+                const requiredTorque = (valveTorque * safetyFactor).toFixed(2);
+                const pressureIndex = pressureIndexes[airPressure];
+                const matchedModels = torqueData
+                    .filter(item => item.values[pressureIndex] >= requiredTorque)
+                    .sort((a, b) => a.values[pressureIndex] - b.values[pressureIndex]);
+                resultPanel.style.display = "block";
+                const bestMatch = matchedModels.length > 0 ? matchedModels[0] : null;
+                if (bestMatch) {
+                    const actuatorTorque = bestMatch.values[pressureIndex].toFixed(2);
+                    document.getElementById("bestModel").textContent = bestMatch.model + "DA";
+                    document.getElementById("valveTorqueDisplay").textContent = valveTorque + " Nm";
+                    document.getElementById("safetyFactorDisplay").textContent = safetyFactor + "倍";
+                    document.getElementById("requiredTorqueDisplay").textContent = requiredTorque + " Nm";
+                    document.getElementById("airPressureDisplay").textContent = airPressure + " bar";
+                    document.getElementById("actuatorTorqueDisplay").textContent = actuatorTorque + " Nm";
+                } else {
+                    document.getElementById("bestModel").textContent = "无匹配型号";
+                    document.getElementById("valveTorqueDisplay").textContent = valveTorque + " Nm";
+                    document.getElementById("safetyFactorDisplay").textContent = safetyFactor + "倍";
+                    document.getElementById("requiredTorqueDisplay").textContent = requiredTorque + " Nm";
+                    document.getElementById("airPressureDisplay").textContent = airPressure + " bar";
+                    document.getElementById("actuatorTorqueDisplay").textContent = "无";
+                }
+                const tableBody = document.getElementById("tableBody");
+                tableBody.innerHTML = "";
+                
+                // 核心逻辑：先渲染最佳匹配型号行（置顶），再渲染其他型号行
+                if (bestMatch) {
+                    const bestTr = createTableRow(bestMatch, pressureIndex, true);
+                    tableBody.appendChild(bestTr); // 最佳匹配行置顶
+                }
+                
+                // 渲染其他型号行（排除最佳匹配）
+                torqueData.forEach(item => {
+                    if (!bestMatch || item.model !== bestMatch.model) {
+                        const tr = createTableRow(item, pressureIndex, false);
+                        tableBody.appendChild(tr);
+                    }
+                });
+            } catch (error) {
+                console.error("选型出错：", error);
+                alert("选型功能异常，请刷新页面重试");
+            }
+        }
+        // 生成表格行（复用逻辑）
+        function createTableRow(item, pressureIndex, isBestMatch) {
+            const tr = document.createElement("tr");
+            if (isBestMatch) {
+                tr.classList.add("best-match-row");
+            }
+            // 型号单元格（带圆角+闪烁）
+            let tdHtml = `<td class="${isBestMatch ? 'blink-effect' : ''}">${item.model}DA</td>`;
+            // 扭矩单元格
+            item.values.forEach((val, idx) => {
+                const isTargetPressure = idx === pressureIndex;
+                const className = isBestMatch && isTargetPressure
+                    ? "pressure-highlight blink-effect"
+                    : isTargetPressure
+                        ? "pressure-highlight"
+                        : "";
+                tdHtml += `<td class="${className}">${val}</td>`;
+            });
+            tr.innerHTML = tdHtml;
+            return tr;
+        }
+        // 页面加载初始化
+        document.addEventListener("DOMContentLoaded", function() {
+            initTable();
+            const inputs = document.querySelectorAll(".form-control");
+            inputs.forEach(input => {
+                input.addEventListener("touchstart", function() {
+                    this.focus();
+                });
+            });
+        });
+    </script>
+</body>
+</html>
