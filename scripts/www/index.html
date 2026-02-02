@@ -1,11 +1,192 @@
 <!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>PakePlus</title>
-    </head>
-    <body>
-        PakePlus
-    </body>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kezhen Valve - Actuator Selection Home</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #f0f4f8 0%, #f7f9fc 100%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        /* 背景装饰元素 */
+        body::before, body::after {
+            content: "";
+            position: absolute;
+            border-radius: 50%;
+            background: linear-gradient(90deg, rgba(59,130,246,0.1), rgba(30,64,175,0.05));
+            z-index: 0;
+        }
+        body::before {
+            width: 400px;
+            height: 400px;
+            top: -100px;
+            left: -100px;
+        }
+        body::after {
+            width: 500px;
+            height: 500px;
+            bottom: -150px;
+            right: -150px;
+        }
+        .container {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            max-width: 900px;
+            width: 100%;
+        }
+        .logo {
+            margin-bottom: 15px;
+        }
+        .logo-text {
+            font-size: 32px;
+            font-weight: 700;
+            background: linear-gradient(90deg, #1e40af, #3b82f6);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: 0.5px;
+        }
+        .subtitle {
+            font-size: 18px;
+            color: #475569;
+            margin-bottom: 50px;
+            font-weight: 400;
+            letter-spacing: 0.3px;
+        }
+        .english-title {
+            font-size: 16px;
+            color: #64748b;
+            margin-bottom: 30px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+        .btn-group {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 60px;
+        }
+        .select-btn {
+            width: 240px;
+            height: 90px;
+            background: linear-gradient(90deg, #1e40af, #3b82f6);
+            color: white;
+            border: none;
+            border-radius: 16px;
+            font-size: 20px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 8px 24px rgba(30, 64, 175, 0.25);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
+        }
+        .select-btn .english {
+            font-size: 14px;
+            opacity: 0.8;
+            margin-top: 4px;
+            letter-spacing: 0.5px;
+        }
+        .select-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(30, 64, 175, 0.35);
+            background: linear-gradient(90deg, #3b82f6, #60a5fa);
+        }
+        .select-btn:active {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(30, 64, 175, 0.3);
+        }
+        .footer {
+            color: #94a3b8;
+            font-size: 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .footer .english-footer {
+            font-size: 12px;
+            letter-spacing: 0.5px;
+            text-transform: lowercase;
+        }
+        /* 响应式适配 */
+        @media (max-width: 768px) {
+            .logo-text {
+                font-size: 26px;
+            }
+            .subtitle {
+                font-size: 16px;
+                margin-bottom: 40px;
+            }
+            .select-btn {
+                width: 180px;
+                height: 80px;
+                font-size: 18px;
+            }
+            .btn-group {
+                gap: 20px;
+            }
+        }
+        @media (max-width: 480px) {
+            .select-btn {
+                width: 100%;
+                max-width: 280px;
+            }
+            body::before, body::after {
+                width: 250px;
+                height: 250px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">
+            <div class="logo-text">无锡科振自控阀门有限公司</div>
+            <div class="english-title">WUXI KEZHEN AUTOMATIC CONTROL VALVE CO., LTD.</div>
+        </div>
+        <div class="subtitle">执行器选型系统 | Actuator Selection System</div>
+        <div class="btn-group">
+            <!-- 双作用选型：点击跳转双作用.html -->
+            <button class="select-btn" onclick="window.open('双作用.html','_self')">
+                双作用执行器选型
+                <span class="english">Double-Acting Actuator</span>
+            </button>
+            <!-- 单作用选型：点击跳转单作用.html -->
+            <button class="select-btn" onclick="window.open('单作用.html','_self')">
+                单作用执行器选型
+                <span class="english">Single-Acting Actuator</span>
+            </button>
+            <!-- 报价助手：点击跳转报价.html -->
+            <button class="select-btn" onclick="window.open('报价.html','_self')">
+                报价助手
+                <span class="english">Quotation Assistant</span>
+            </button>
+        </div>
+        <div class="footer">
+            <div>精准匹配 · 成本优先 · 操作便捷</div>
+            <div class="english-footer">Precise Matching · Cost Priority · Easy Operation</div>
+        </div>
+    </div>
+</body>
 </html>
